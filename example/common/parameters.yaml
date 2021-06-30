@@ -1,0 +1,20 @@
+components:
+  parameters:
+  
+    Limit:
+      name: limit
+      in: query
+      description: Максимальное кол-во записей, которое сервер может вернуть на этот запрос
+      required: true
+      schema:
+        type: integer
+    
+    Offset:
+      name: offset
+      in: query
+      description: >
+        Номер записи, начиная с которого нужно вернуть результат. 
+        Например, если вы хотите получить записи начиная с 20-й, то offset должен быть равен 20.
+      required: true
+      schema:
+        type: integer

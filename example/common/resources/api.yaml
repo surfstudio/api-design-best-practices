@@ -1,0 +1,68 @@
+openapi: 3.0.2
+info:
+  title: "API"
+  version: "1.0.0"
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT 
+
+paths:
+  /resources/captcha:
+    get:
+      summary: Возвращает капчу для ввода. Либо указывает, что капча не нужна.
+      parameters:
+        - name: type
+          required: true
+          in: query
+          schema:
+            $ref: "models.yaml#/components/schemas/RequestMetaType"
+      responses:
+        "200":
+          description: Успех
+          content:
+            application/json:
+              schema:
+                $ref: "models.yaml#/components/schemas/Captcha"
+        default:
+          $ref: "../errors.yaml#/components/responses/ApiErrorResponse"
+
+  /resources/getAttachment:
+    get:
+      summary: Возвращает attachment по id
+      parameters:
+        - name: id
+          required: false
+          in: query
+          schema:
+            type: string
+        - name: type
+          required: true
+          in: query
+          schema:
+            $ref: "models.yaml#/components/schemas/AttachType"
+      responses:
+        "200":
+          description: Успех
+          content:
+            application/json:
+              schema:
+                $ref: "models.yaml#/components/schemas/Attachment"
+        default:
+          $ref: "../errors.yaml#/components/responses/ApiErrorResponse"
+
+  /resources/infoBanner:
+    get:
+      summary: Возвращает информационный баннер или ничего 
+      responses:
+        "200":
+          description: Успех
+          content:
+            application/json:
+              schema:
+                $ref: "models.yaml#/components/schemas/InfoBanner"
+        default:
+          $ref: "../errors.yaml#/components/responses/ApiErrorResponse"

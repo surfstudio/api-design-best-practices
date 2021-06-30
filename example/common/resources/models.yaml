@@ -1,0 +1,76 @@
+components:
+  schemas:
+
+    RequestMetaType:
+      type: string
+      enum: ["Login", "ResetPassword"]
+      description: Для чего выполняется запрос
+    
+    AttachType:
+      type: string
+      enum: [image, report, attachment]
+      description: Тип скачиваемого файла. report - договор. attachment - файлы в сообщениях. 
+
+      
+    CaptchaPayloadInfo:
+      type: object
+      description: Объект содержит информацию, которая позволяет однозначно установить верно ли была распознана капча или нет. 
+      properties:
+        hash: 
+          type: string
+          nullable: false
+          description: >
+            Тот же хэш, который приходит в `Captcha`
+        value:
+          type: string
+          nullable: true
+          description: Значение, которое ввел пользователь (распознанное значение)
+
+    Captcha:
+      type: object
+      properties:
+        isNecessary: 
+          type: boolean
+          description: Указывает, нужно отображать капчу или нет. Если нет - остальные поля null
+        hash:
+          type: string
+          nullable: true
+          description: > 
+            Хэш изображения. 
+            Он необходим для того, чтобы когда МП отправили ответ, 
+            сервер мог понять, к какому изображению этот ответ относится.
+        image:
+          type: string
+          format: byte
+          nullable: true
+          description: Картинка в base64.
+
+    Attachment:
+      type: object
+      properties: 
+        attachment:
+          type: string
+          format: byte
+          description: Base64 закондированный файл
+        fileName:
+          type: string
+    
+    InfoBanner: 
+      description: Информационный баннер для пользователя
+      properties:
+        title: 
+          type: string
+          description: Заголовок
+          example: Внимание
+        text: 
+          type: string
+          description: Основной информационный текст
+        buttonText:
+          type: string
+          description: Текст кнопки
+          example: Закрыть
+      required:
+        - title
+        - text
+        - buttonText
+

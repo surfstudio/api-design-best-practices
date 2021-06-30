@@ -1,0 +1,18 @@
+components:
+  schemas:
+  
+    MetaData: 
+      description: Мета-данные для пагинации
+      properties:
+        offset: 
+          type: integer
+          description: Текущий сдвиг пачки на пагинации
+          example: 0
+        limit: 
+          type: integer
+          description: Размер одной пачки пагинации
+          example: 20
+        count: 
+          type: integer 
+          description: Общий размер списка
+          example: 20

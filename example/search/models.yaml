@@ -1,0 +1,13 @@
+components:
+  schemas:
+
+    SearchItem:
+      type: object
+      description: Объект используемый для примера. Скорее всего у вас будет другой Объект
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        imgUrl:
+          type: string

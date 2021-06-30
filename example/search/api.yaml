@@ -1,0 +1,72 @@
+openapi: 3.0.2
+info:
+  title: "API"
+  version: "1.0.0"
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT 
+
+# Все методы, перечисленные в этом файле защищены через AccessToken
+security:
+  - bearerAuth: []
+
+paths:
+
+  /search:
+    get:
+      summary: Поиск с постраничной пагинацией
+      description: >
+        Выполняет поиск по запросу заданному в `query`.
+        Пагинация работает следующим образом:
+
+        -> Первый запрос:
+          query = "Яблоки"
+          limit = 10
+          offset = 0
+
+        Сервер вернул 10 элементов
+
+        -> Второй запрос:
+        query = "Яблоки"
+        limit = 10
+        offset = 10
+
+        Сервер вернул 5 элементов --> нашлось только 15 элементов. Пагинация закончилась. 
+
+        Каждый параметр отдельно описан.      
+      parameters:
+        - name: query
+          in: query
+          description: Содержит запрос по котороу будетв ыполняться поиск
+          required: true
+          schema:
+            type: string
+        - $ref: "../../common/parameters.yaml#/components/parameters/Limit"
+        - $ref: "../../common/parameters.yaml#/components/parameters/Offset"
+      responses:
+        "200":
+          description: >
+            Успешный ответ. 
+            **ВАЖНО**
+            Может содержать пустой массив -- тем самым обозначать то, что пагинация закончилась.
+            Так же, вам нужно будет самим уточнить у вашего бэка какие могут быть ошибки и как их нужно обрабатывать. 
+          content:
+            "application/json":
+              schema:
+                type: array
+                items:
+                  $ref: "models.yaml#/components/schemas/SearchItem"
+        "500":
+          description: Что-то сломалось на сервере.
+          content:
+            "application/json":
+              schema:
+                $ref: "../../common/errors.yaml#/components/schemas/ServerError"
+
+
+        
+
